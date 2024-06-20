@@ -8,6 +8,8 @@ jobs:
   executing-job-in-a-container:
     runs-on: ubuntu-latest
     container: alpine:latest
+      - volumes:
+        - $GITHUB_WORKSPACE/use-service-containers:/setup-scripts
 
     services:
       postgres:
@@ -27,3 +29,7 @@ jobs:
         run: |
           apk update
           apk add postgresql-client
+      - name: Verify the setup volume has been mounted
+        run: ls /setup-scripts
+      - name: Setup database tables
+        run: psql -U postgres -f setup.sql
