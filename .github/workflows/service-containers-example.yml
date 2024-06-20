@@ -25,5 +25,5 @@ jobs:
     steps:
       - name: Install psql
         run: |
-          apt-get update
-          apt-get install --yes --no-install-recommends postgresql-client
+          apk update
+          apk add postgresql-client
