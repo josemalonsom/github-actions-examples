@@ -4,14 +4,13 @@ on:
   - push
   - workflow_dispatch
 
-env:
-  POSTGRES_PASSWORD: postgres
-
 jobs:
   executing-job-in-a-container:
     runs-on: ubuntu-latest
     container:
       image: alpine:latest
+    env:
+      POSTGRES_PASSWORD: postgres
 
     services:
       postgres:
