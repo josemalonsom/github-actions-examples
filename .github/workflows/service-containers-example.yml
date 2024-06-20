@@ -7,8 +7,9 @@ on:
 jobs:
   executing-job-in-a-container:
     runs-on: ubuntu-latest
-    container: alpine:latest
-      - volumes:
+    container:
+      image: alpine:latest
+      volumes:
         - $GITHUB_WORKSPACE/use-service-containers:/setup-scripts
 
     services:
