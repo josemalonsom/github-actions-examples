@@ -4,13 +4,14 @@ on:
   - push
   - workflow_dispatch
 
+env:
+  POSTGRES_PASSWORD: postgres
+
 jobs:
   executing-job-in-a-container:
     runs-on: ubuntu-latest
     container:
       image: alpine:latest
-    env:
-      POSTGRES_PASSWORD: postgres
 
     services:
       postgres:
@@ -32,7 +33,7 @@ jobs:
           apk add postgresql-client
       - name: Setup database tables
         run: |
-          psql -h postgres -U postgres -W ${{ env.POSTGRES_PASSWORD }} -c "
+          psql -h postgres -U postgres -c "
             create table todo
             (
                 id   serial,
