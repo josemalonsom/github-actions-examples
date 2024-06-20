@@ -1,0 +1,29 @@
+name: Service container example
+# Based on https://docs.github.com/en/actions/using-containerized-services/creating-postgresql-service-containers
+on:
+  - push
+  - workflow_dispatch
+
+jobs:
+  executing-job-in-a-container:
+    runs-on: ubuntu-latest
+    container: alpine:latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        # We don't need to map ports in this case as we're in the same docker bridge network
+
+    steps:
+      - name: Install psql
+        run: |
+          apt-get update
+          apt-get install --yes --no-install-recommends postgresql-client
