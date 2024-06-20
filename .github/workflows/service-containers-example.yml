@@ -16,8 +16,8 @@ jobs:
     services:
       postgres:
         image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
+#        env:
+#          POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -33,7 +33,7 @@ jobs:
           apk add postgresql-client
       - name: Setup database tables
         run: |
-          psql -h postgres -U postgres -c "
+          psql -h postgres -U postgres -W $POSTGRES_PASSWORD -c "
             create table todo
             (
                 id   serial,
