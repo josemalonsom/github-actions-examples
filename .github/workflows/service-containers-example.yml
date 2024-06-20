@@ -32,7 +32,7 @@ jobs:
           apk add postgresql-client
       - name: Setup database tables
         run: |
-          psql -h postgres -U postgres -W $POSTGRES_PASSWORD -c "
+          psql -h postgres -U postgres -W ${{ env.POSTGRES_PASSWORD }} -c "
             create table todo
             (
                 id   serial,
@@ -43,5 +43,3 @@ jobs:
             insert into todo (task, done) values ('Task 1', FALSE);
             insert into todo (task, done) values ('Task 2', FALSE);
             insert into todo (task, done) values ('Task 3', FALSE);"
-        env:
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
