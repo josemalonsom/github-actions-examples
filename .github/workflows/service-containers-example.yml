@@ -30,7 +30,7 @@ jobs:
           apk add postgresql-client
       - name: Setup database tables
         run: |
-          psql -U postgres -c "
+          psql -h localhost -U postgres -c "
             create table todo
             (
                 id   serial,
