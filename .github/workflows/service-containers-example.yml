@@ -9,8 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: alpine:latest
-      volumes:
-        - $GITHUB_WORKSPACE/use-service-containers:/setup-scripts
 
     services:
       postgres:
@@ -30,7 +28,16 @@ jobs:
         run: |
           apk update
           apk add postgresql-client
-      - name: Verify the setup volume has been mounted
-        run: ls /setup-scripts
       - name: Setup database tables
-        run: psql -U postgres -f setup.sql
+        run: |
+          psql -U postgres -c "
+            create table todo
+            (
+                id   serial,
+                task varchar not null,
+                done boolean
+            );
+  
+            insert into todo (task, done) values ('Task 1', FALSE);
+            insert into todo (task, done) values ('Task 2', FALSE);
+            insert into todo (task, done) values ('Task 3', FALSE);"
