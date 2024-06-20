@@ -45,3 +45,5 @@ jobs:
             insert into todo (task, done) values ('Task 1', FALSE);
             insert into todo (task, done) values ('Task 2', FALSE);
             insert into todo (task, done) values ('Task 3', FALSE);"
+      - name: Query table
+        run: psql -h postgres -U postgres -c "select * from todo"
