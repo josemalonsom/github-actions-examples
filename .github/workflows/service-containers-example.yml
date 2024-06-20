@@ -5,7 +5,8 @@ on:
   - workflow_dispatch
 
 env:
-  POSTGRES_PASSWORD: postgres
+  # PGPASSWORD is used by psql automatically
+  PGPASSWORD: postgres
 
 jobs:
   executing-job-in-a-container:
@@ -17,7 +18,7 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_PASSWORD: ${{ env.PGPASSWORD }}
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
