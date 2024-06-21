@@ -75,7 +75,9 @@ jobs:
         with:
           sparse-checkout: use-service-containers
       - run: ls
-      - run: ls ${{ env.GITHUB_WORKSPACE }}
+      - run: ls $GITHUB_WORKSPACE
+        env:
+          GITHUB_WORKSPACE: ${{ env.GITHUB_WORKSPACE }}
       - name: Setup database tables
         run: |
           psql -h localhost -U postgres -f ${{ env.GITHUB_WORKSPACE }}/use-service-containers/setup.sql
