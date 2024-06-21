@@ -1,0 +1,82 @@
+name: Service container example
+# Based on https://docs.github.com/en/actions/using-containerized-services/creating-postgresql-service-containers
+on:
+  - push
+  - workflow_dispatch
+
+env:
+  # PGPASSWORD is used by psql automatically
+  PGPASSWORD: postgres
+
+jobs:
+  executing-job-in-a-container:
+    runs-on: ubuntu-latest
+    container:
+      image: alpine:latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: ${{ env.PGPASSWORD }}
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        # We don't need to map ports in this case as we're in the same docker bridge network
+
+    steps:
+      - name: Install psql
+        run: |
+          apk update
+          apk add postgresql-client
+      - name: Setup database tables
+        run: |
+          psql -h postgres -U postgres -c "
+            create table todo
+            (
+                id   serial,
+                task varchar not null,
+                done boolean
+            );
+  
+            insert into todo (task, done) values ('Task 1', FALSE);
+            insert into todo (task, done) values ('Task 2', FALSE);
+            insert into todo (task, done) values ('Task 3', FALSE);"
+      - name: Query table
+        run: psql -h postgres -U postgres -c "select * from todo"
+
+  executing-job-in-the-runner-machine:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: ${{ env.PGPASSWORD }}
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Install psql
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends postgresql-client
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            use-service-containers
+      - name: Setup database tables
+        run: |
+          psql -h localhost -U postgres -f $GITHUB_WORKSPACE/use-service-containers/setup.sql
+      - name: Query table
+        run: psql -h localhost -U postgres -c "select * from todo"
