@@ -76,6 +76,6 @@ jobs:
           sparse-checkout: use-service-containers
       - name: Setup database tables
         run: |
-          psql -h postgres -U postgres -f ${{ env.GITHUB_WORKSPACE }}/use-service-containers/setup.sql
+          psql -h localhost -U postgres -f ${{ env.GITHUB_WORKSPACE }}/use-service-containers/setup.sql
       - name: Query table
         run: psql -h postgres -U postgres -c "select * from todo"
