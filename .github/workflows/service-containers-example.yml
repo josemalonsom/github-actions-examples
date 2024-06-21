@@ -75,10 +75,8 @@ jobs:
         with:
           sparse-checkout: |
             use-service-containers
-      - run: ls
-      - run: ls $GITHUB_WORKSPACE
       - name: Setup database tables
         run: |
           psql -h localhost -U postgres -f $GITHUB_WORKSPACE/use-service-containers/setup.sql
       - name: Query table
-        run: psql -h postgres -U postgres -c "select * from todo"
+        run: psql -h localhost -U postgres -c "select * from todo"
