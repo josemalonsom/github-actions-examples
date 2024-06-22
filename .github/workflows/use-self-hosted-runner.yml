@@ -1,0 +1,13 @@
+name: Self Hosted Runner Example
+# See https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners
+on:
+  - push
+  - workflow_dispatch
+
+jobs:
+  hello-world:
+    runs-on: self-hosted
+
+    steps:
+      - name: Print Hello World From Self Hosted Runner
+        run: echo "Hello World from $HOSTNAME"
