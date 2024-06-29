@@ -9,4 +9,8 @@ jobs:
   path-pattern-job:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            use-path-patterns
       - run: echo "ls -lrt $GITHUB_WORKSPACE/use-path-patterns/*"
