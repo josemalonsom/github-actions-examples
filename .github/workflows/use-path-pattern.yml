@@ -1,0 +1,16 @@
+name: Matrix Strategy With Include Example
+# Example in one of the questions from https://ghcertified.com
+on:
+  push:
+    paths:
+      - 'use-path-patterns/*.txt'
+
+jobs:
+  path-pattern-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            use-path-patterns
+      - run: ls -lrt $GITHUB_WORKSPACE/use-path-patterns/*
