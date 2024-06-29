@@ -13,4 +13,4 @@ jobs:
         with:
           sparse-checkout: |
             use-path-patterns
-      - run: echo "ls -lrt $GITHUB_WORKSPACE/use-path-patterns/*"
+      - run: echo "ls -lrt $GITHUB_WORKSPACE/*"
