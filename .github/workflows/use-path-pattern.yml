@@ -6,7 +6,7 @@ on:
       - 'use-path-patterns/*.txt'
 
 jobs:
-  matrix-job:
+  path-pattern-job:
     runs-on: ubuntu-latest
     steps:
       - run: echo "ls -lrt $GITHUB_WORKSPACE/use-path-patterns/*"
