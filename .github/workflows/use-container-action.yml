@@ -1,3 +1,5 @@
+name: Use Container Action
+
 on: [push]
 
 jobs:

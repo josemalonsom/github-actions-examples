@@ -1,4 +1,4 @@
-name: Matrix Strategy With Include Example
+name: Use Path Pattern
 # Example in one of the questions from https://ghcertified.com
 on:
   push:
