@@ -10,4 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "ls -lrt $GITHUB_WORKSPACE/*"
+        with:
+          sparse-checkout: |
+            use-path-patterns
+      - run: ls -lrt $GITHUB_WORKSPACE/use-path-patterns/*
